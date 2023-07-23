@@ -1,6 +1,6 @@
 import './ReviewComponent.css';
 
-const ReviewComponent = ()=> {
+export const ReviewComponent = ()=> {
     const reviews = [
         {
             img: '../images/card-image-1.svg',
@@ -53,5 +53,3 @@ const ReviewComponent = ()=> {
         </section>
     )
 }
-
-export default ReviewComponent;

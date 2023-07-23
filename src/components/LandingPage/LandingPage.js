@@ -1,7 +1,7 @@
 import './LandingPage.css';
 import { FaTimes, FaSearch } from 'react-icons/fa';
 
-const LandingPage = ()=> {
+export const LandingPage = ()=> {
     return (
         <section className='landing-page'>
             <div className='landing-page__image-container'>
@@ -37,5 +37,3 @@ const LandingPage = ()=> {
         </section>
     )
 }
-
-export default LandingPage;
