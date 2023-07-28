@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './SelectVehicle.css';
 import { FaExclamationCircle } from 'react-icons/fa';
 
-export const SelectVehicle = ({checked, handleRadioChange})=> {
+export const SelectVehicle = ({checked, handleRadioChange, selectCarError})=> {
     
     return (
         <section className='select-vehicle'>
@@ -61,7 +61,10 @@ export const SelectVehicle = ({checked, handleRadioChange})=> {
                     <p>Luxury Car</p>
                 </div>
             </div>
-            <div className='error-message'><FaExclamationCircle /> Select a vehicle type</div>
+            {
+                selectCarError && 
+                <div className='error-message'><FaExclamationCircle /> Select a vehicle type</div>
+            }
         </section>
     )
 }

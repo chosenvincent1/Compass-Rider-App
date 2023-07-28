@@ -1,13 +1,17 @@
 import './DriverRegistration.css';
 import { FaExclamationCircle } from 'react-icons/fa';
+import { FirstName } from './FirstName';
+import { LastName } from './LastName';
+import { Email } from './Email';
 import { SelectVehicle } from './SelectVehicle';
+import { SelectCountry } from './SelectCountry';
+import { SelectCity } from './SelectCity';
+import { ReferralCode } from './ReferalCode';
 import { useState } from 'react';
+import { nameRegex, emailRegex, codeRegex } from '../../utils/regex';
 import jsonData from '../../utils/countries.json';
 
-
-const codeRegex = /^[A-Za-z]{3}-[0-9]{3}$/;
-
-const DriverRegistration = ()=> {
+const DriverRegistration = ({showSuccess, setShowSuccess})=> {
     const [driverData, setDriverData] = useState({
         firstName: '',
         lastName: '',
@@ -20,8 +24,11 @@ const DriverRegistration = ()=> {
     const [firstNameError, setFirstNameError] = useState(false);
     const [lastNameError, setLastNameError] = useState(false);
     const [emailError, setEmailError] = useState(false);
-    const [referralCodeError, setReferralCodeError] = useState(false)
+    const [countryError, setCountryError] = useState(false);
+    const [selectCarError, setSelectCarError] = useState(false);
+    const [referralCodeError, setReferralCodeError] = useState(false);
 
+    // Store the jsonData keys in the countries variable.
     const countries = Object.keys(jsonData);
     const cities = driverData.country ? jsonData[driverData.country] : [];
 
@@ -34,19 +41,16 @@ const DriverRegistration = ()=> {
             }
         })
 
-        const regex = /^[A-Za-z]+$/;
-        const emailRegex = /^[a-z0-9]+@[a-z0-9]+\.[a-z]{2,}$/;
-
         // Check FirstName and LastName format
         if(name === 'firstName') {
-            if(!regex.test(driverData.firstName)){
+            if(!nameRegex.test(driverData.firstName)){
                 setFirstNameError(true)
             } else {
                 setFirstNameError(false);
             }
         }
         if(name === 'lastName') {
-            if(!regex.test(driverData.lastName)) {
+            if(!nameRegex.test(driverData.lastName)) {
                 setLastNameError(true)
             } else {
                 setLastNameError(false);
@@ -60,14 +64,13 @@ const DriverRegistration = ()=> {
             setEmailError(false);
         }
     }
-
     const handleSelectCountryChange = (event)=> {
         setDriverData(prevData=> {
             return {
                 ...prevData,
                 country: event.target.value
             }
-        })  
+        })
     }
     const handleSelectCityChange = (event)=> {
         setDriverData(prevData=> {
@@ -77,16 +80,52 @@ const DriverRegistration = ()=> {
             }
         })  
     }
-
     const handleRadioChange = (event) => {
         setDriverData({ ...driverData, selectedCar: event.target.value });
     };
+    const handleInputBlur = ()=> {
+        if(!codeRegex.test(driverData.referralCode)){
+            setReferralCodeError(true)
+        } else {
+            setReferralCodeError(false);
+        }
+    }
+    const handleInputFocus = ()=> {
+        setReferralCodeError(false);
+    }
+    const handleFormSubmit = (event)=> {
+        event.preventDefault();
 
-    console.log(cities)
-    // console.log(driverData)
+        if(!driverData.firstName){
+            setFirstNameError(true)
+        }
+        if(!driverData.lastName){
+            setLastNameError(true)
+        }
+
+        if(!driverData.country) {
+            setCountryError(true);
+        }else {
+            setCountryError(false)
+        }
+
+        if(
+            driverData.selectedCar !== 'Sedan' ||
+            driverData.selectedCar !== 'SUV/Van' ||
+            driverData.selectedCar !== 'Semi Luxury' ||
+            driverData.selectedCar !== 'Luxury Car'
+        ) {
+            setSelectCarError(true);
+        }else {
+            setSelectCarError(false);
+        }
+
+        console.log(driverData)
+        setShowSuccess(true);
+    }
 
     return (
-        <section className='driver-registration'>
+        <section style={{display: !showSuccess ? 'block' : 'none'}} className='driver-registration'>
             <div className='image_text-container'>
                 <img src='../images/driver-car-image.svg' alt='' />
                 <div className='text-container'>
@@ -95,118 +134,59 @@ const DriverRegistration = ()=> {
                 </div>
             </div>
 
-            <form className='driver-form'>
+            <form onSubmit={handleFormSubmit} className='driver-form'>
                 <div className='firstName_lastName_container'>
-                    <div className='driver-form_input'>
-                        <input 
-                            type='text' 
-                            name='firstName'
-                            value={driverData.firstName}
-                            onChange={handleInputChange}
-                            placeholder='First Name'
-                            className='form-input firstName-input' 
-                        />
-                        {
-                            firstNameError &&
-                            <div className='error-message'><FaExclamationCircle /> Invalid name</div>
-                        }
-                    </div>
-
-                    <div className='driver-form_input '>
-                        <input 
-                            type='text'
-                            name='lastName'
-                            value={driverData.lastName}
-                            onChange={handleInputChange}
-                            placeholder='Last Name'
-                            className='form-input lastName-input' 
-                        />
-                        {
-                            lastNameError &&
-                            <div className='error-message'><FaExclamationCircle /> Invalid Last Name</div>
-                        }
-                    </div>
-                </div>
-
-                <div className='driver-form_input '>
-                    <input 
-                        type='email'
-                        name='email'
-                        value={driverData.email} 
-                        onChange={handleInputChange}
-                        placeholder='Email Address'
-                        className='form-input email-input' 
+                    <FirstName 
+                        firstName={driverData.firstName}
+                        handleInputChange={handleInputChange}
+                        firstNameError={firstNameError}
                     />
-                    {
-                        emailError &&
-                        <div className='error-message'><FaExclamationCircle /> Invalid email</div>
-                    }
-                </div>
 
-                <div className='driver-form_input '>
-                    <select 
-                        name='country'
-                        value={driverData.country}
-                        onChange={handleSelectCountryChange} 
-                        className='select-country'
-                    >
-                        {countries.map((country, index)=> {
-                            return (
-                                <option key={index} value={country}>{country}</option>
-                            )
-                        })} 
-                    </select>
-                    <div className='error-message'><FaExclamationCircle /> Invalid country</div>
-                </div>
-
-                <div className='driver-form_input '>
-                    <select
-                        name='city'
-                        value={driverData.city}
-                        onChange={handleSelectCityChange}
-                        className='select-city'
-                    >
-                        {cities.map((city, index)=> {
-                            return (
-                                <option key={index} value={city}>{city}</option>
-                            )
-                        })}
-                    </select>
-                    <div className='error-message'><FaExclamationCircle /> Invalid city</div>
-                </div>
-
-                <div className='driver-form_input '>
-                    <input 
-                        type='text'
-                        name='referralCode'
-                        value={driverData.referralCode}
-                        onChange={handleInputChange}
-                        onBlur={()=>{
-                            // const codeRegex = /^[A-Za-z]{3}-[0-9]{3}$/;
-                            if(!codeRegex.test(driverData.referralCode)){
-                            setReferralCodeError(true)
-                            } else {
-                            setReferralCodeError(false);
-                        }}}
-                        onFocus={()=> {
-                            setReferralCodeError(false)
-                        }}
-                        placeholder='Referral Code'
-                        className='form-input referral-input' 
+                    <LastName 
+                        lastName={driverData.lastName}
+                        handleInputChange={handleInputChange}
+                        lastNameError={lastNameError}
                     />
-                    {
-                        referralCodeError &&
-                        <div className='error-message'><FaExclamationCircle /> Invalid code</div>
-                    }
                 </div>
+
+                <Email 
+                    email={driverData.email}
+                    handleInputChange={handleInputChange}
+                    emailError={emailError}
+                />
+
+                <SelectCountry 
+                    country={driverData.country} 
+                    handleSelectCountryChange={handleSelectCountryChange} 
+                    countryList={countries} 
+                    countryError={countryError}
+                />
+
+                <SelectCity
+                    city={driverData.city}
+                    handleSelectCityChange={handleSelectCityChange}
+                    cityList={cities}
+                />
+
+                <ReferralCode 
+                    referralCode={driverData.referralCode}
+                    handleInputChange={handleInputChange}
+                    handleInputBlur={handleInputBlur}
+                    handleInputFocus={handleInputFocus}
+                    referralCodeError={referralCodeError}
+                />
 
                 <div className='personal-car'>
                     <p>I drive my own car</p>
                 </div>
                 
-                <SelectVehicle checked={driverData.selectedCar}  handleRadioChange={handleRadioChange}  />
+                <SelectVehicle 
+                    checked={driverData.selectedCar}  
+                    handleRadioChange={handleRadioChange} 
+                    selectCarError={selectCarError}  
+                />
 
-                <button className='submit-button'>Submit</button>
+                <button type='submit' className='submit-button'>Submit</button>
             </form>
         </section>
     )
