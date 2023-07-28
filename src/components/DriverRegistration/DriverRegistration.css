@@ -31,8 +31,9 @@
 }
 .firstName_lastName_container {
     display: flex;
-    align-items: center;
+    align-items: start;
     gap: 30px;
+    height: 70px;
 }
 .driver-form_input {
     width: 100%;
@@ -43,7 +44,7 @@
     background-color: var(--light-dark);
     border: 2px solid #666666;
     font-size: 16px;
-    margin-bottom: 8px;
+    /* margin-bottom: ; */
     color: var(--dullwhite);
 }
 .form-input:focus {

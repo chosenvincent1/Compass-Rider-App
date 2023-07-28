@@ -9,7 +9,6 @@ export const LandingPage = ()=> {
         pickup: '',
         location: ''
     });
-    const [dataArray, setDataArray] = useState([])
 
     const clearPickupInfo = ()=> {
         setBookingData(prevData => {
