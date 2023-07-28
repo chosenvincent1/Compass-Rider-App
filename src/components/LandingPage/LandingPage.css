@@ -43,10 +43,11 @@
     padding: 30px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
 }
 .input-container {
     position: relative;
+    margin-bottom: 2px;
 }
 .input-container > input {
     width: 100%;
@@ -81,6 +82,14 @@
     top: 50%;
     transform: translateY(-50%);
     right: 10px;
+}
+
+.landing-page__error-message {
+    color: var(--red);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .form-button-container {

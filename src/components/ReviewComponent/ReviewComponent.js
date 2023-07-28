@@ -43,7 +43,7 @@ export const ReviewComponent = ()=> {
                                 <div className='card__text-container'>
                                     <h2>{review.title}</h2>
                                     <h3>{review.description}</h3>
-                                    <p>Learn More</p>
+                                    <p className='learn-more'>Learn More</p>
                                 </div>
                             </div>
                         )
