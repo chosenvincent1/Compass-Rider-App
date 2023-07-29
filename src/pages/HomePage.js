@@ -7,7 +7,7 @@ import { useState } from "react";
 const HomePage = ()=> {
     const [showSuccess, setShowSuccess] = useState(false);
     return (
-        <>
+        <div style={{width: '100%'}}>
             <LandingPage />
             <ReviewComponent />
             <DriverRegistration 
@@ -15,7 +15,7 @@ const HomePage = ()=> {
                 setShowSuccess={setShowSuccess} 
             />
             <Success showSuccess={showSuccess} />
-        </>
+        </div>
     )
 }
 

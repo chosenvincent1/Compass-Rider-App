@@ -10,7 +10,6 @@
 .landing-page__image-container {
     height: 593px;
     width: 100%;
-
 }
 .landing-page__image-container > img {
     width: 100%;
@@ -95,6 +94,7 @@
 .form-button-container {
     display: flex;
     justify-content: space-between;
+    gap: 20px;
     align-items: center;
 }
 .form-button-container > button {
@@ -116,4 +116,22 @@
     color: var(--yellow);
     text-transform: uppercase;
     font-size: 14px;
+}
+
+
+/* MOBILE VIEW */
+@media screen and (max-width: 768px) {
+    .landing-page {
+        padding: 50px 0;
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: start;
+        color: var(--white);
+        gap: 42px;
+    }
+
+    .landing-page__image-container {
+        height: 300px;
+        width: 100%;    
+    }
 }

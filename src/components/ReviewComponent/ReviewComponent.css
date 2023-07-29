@@ -55,3 +55,15 @@
     font-size: 14px;
     font-weight: 500;
 }
+
+/* Mobile View */
+@media screen and (max-width: 768px) {
+    .card-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card {
+        width: 100%;
+    }
+}
