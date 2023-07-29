@@ -1,5 +1,6 @@
+import {FaExclamationCircle} from 'react-icons/fa';
 
-export const SelectCity = ({city, handleSelectCityChange, cityList})=> {
+export const SelectCity = ({city, handleSelectCityChange, cityList, cityError})=> {
     return (
         <>
             <div className='driver-form_input '>
@@ -15,6 +16,10 @@ export const SelectCity = ({city, handleSelectCityChange, cityList})=> {
                         )
                     })}
                 </select>
+                {
+                    cityError &&
+                    <div className='error-message'><FaExclamationCircle /> Select city</div>
+                }
             </div>
         </>
     )

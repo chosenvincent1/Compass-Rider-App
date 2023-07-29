@@ -6,15 +6,15 @@ export const Email = ({email, handleInputChange, emailError})=> {
             <div className='driver-form_input '>
                 <input 
                     type='email'
-                    name='lastName'
+                    name='email'
                     value={email}
                     onChange={handleInputChange}
-                    placeholder='Last Name'
+                    placeholder='Email'
                     className='form-input lastName-input' 
                 />
                 {
                     emailError &&
-                    <div className='error-message'><FaExclamationCircle /> Invalid Last Name</div>
+                    <div className='error-message'><FaExclamationCircle /> Invalid Email</div>
                 }
             </div>
         </>

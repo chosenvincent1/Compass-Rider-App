@@ -80,6 +80,9 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .personal-car {
     color: var(--white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .submit-button {

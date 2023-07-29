@@ -7,6 +7,7 @@ import { SelectVehicle } from './SelectVehicle';
 import { SelectCountry } from './SelectCountry';
 import { SelectCity } from './SelectCity';
 import { ReferralCode } from './ReferalCode';
+import { Switch } from './Switch/Switch';
 import { useState } from 'react';
 import { nameRegex, emailRegex, codeRegex } from '../../utils/regex';
 import jsonData from '../../utils/countries.json';
@@ -19,12 +20,14 @@ const DriverRegistration = ({showSuccess, setShowSuccess})=> {
         country: '',
         city: '',
         referralCode: '',
+        haveOwnCar: false,
         selectedCar: ''
     })
     const [firstNameError, setFirstNameError] = useState(false);
     const [lastNameError, setLastNameError] = useState(false);
     const [emailError, setEmailError] = useState(false);
     const [countryError, setCountryError] = useState(false);
+    const [cityError, setCityError] = useState(false);
     const [selectCarError, setSelectCarError] = useState(false);
     const [referralCodeError, setReferralCodeError] = useState(false);
 
@@ -58,12 +61,15 @@ const DriverRegistration = ({showSuccess, setShowSuccess})=> {
         }
 
         // Check Email Format
-        if(!emailRegex.test(driverData.email)){
-            setEmailError(true)
-        } else {
-            setEmailError(false);
+        if(name === 'email'){
+            if(!emailRegex.test(driverData.email)){
+                setEmailError(true)
+            } else {
+                setEmailError(false);
+            }
         }
     }
+
     const handleSelectCountryChange = (event)=> {
         setDriverData(prevData=> {
             return {
@@ -83,6 +89,14 @@ const DriverRegistration = ({showSuccess, setShowSuccess})=> {
     const handleRadioChange = (event) => {
         setDriverData({ ...driverData, selectedCar: event.target.value });
     };
+    const handleSwitchChange = ()=> {
+        setDriverData(prevData => {
+            return {
+                ...prevData,
+                haveOwnCar: !prevData.haveOwnCar,
+            }
+        })
+    }
     const handleInputBlur = ()=> {
         if(!codeRegex.test(driverData.referralCode)){
             setReferralCodeError(true)
@@ -93,6 +107,7 @@ const DriverRegistration = ({showSuccess, setShowSuccess})=> {
     const handleInputFocus = ()=> {
         setReferralCodeError(false);
     }
+
     const handleFormSubmit = (event)=> {
         event.preventDefault();
 
@@ -102,11 +117,21 @@ const DriverRegistration = ({showSuccess, setShowSuccess})=> {
         if(!driverData.lastName){
             setLastNameError(true)
         }
-
+        if(!driverData.email){
+            setEmailError(true)
+        }
         if(!driverData.country) {
             setCountryError(true);
         }else {
             setCountryError(false)
+        }
+        if(!driverData.city){
+            setCityError(true);
+        }else {
+            setCityError(false);
+        }
+        if(!driverData.referralCode && !codeRegex.test(driverData.referralCode)){
+            setReferralCodeError(true)
         }
 
         if(
@@ -120,9 +145,23 @@ const DriverRegistration = ({showSuccess, setShowSuccess})=> {
             setSelectCarError(false);
         }
 
-        console.log(driverData)
-        setShowSuccess(true);
+        if(
+            driverData.firstName &&
+            driverData.lastName &&
+            driverData.email &&
+            driverData.country && 
+            driverData.city && 
+            driverData.referralCode &&
+            (driverData.selectedCar === 'Sedan' ||
+            driverData.selectedCar === 'SUV/Van' ||
+            driverData.selectedCar === 'Semi Luxury' ||
+            driverData.selectedCar === 'Luxury Car') 
+        ){
+            setShowSuccess(true);
+        } 
     }
+
+    console.log(driverData)
 
     return (
         <section style={{display: !showSuccess ? 'block' : 'none'}} className='driver-registration'>
@@ -166,6 +205,7 @@ const DriverRegistration = ({showSuccess, setShowSuccess})=> {
                     city={driverData.city}
                     handleSelectCityChange={handleSelectCityChange}
                     cityList={cities}
+                    cityError={cityError}
                 />
 
                 <ReferralCode 
@@ -178,6 +218,23 @@ const DriverRegistration = ({showSuccess, setShowSuccess})=> {
 
                 <div className='personal-car'>
                     <p>I drive my own car</p>
+
+                    <Switch 
+                        checked={driverData.haveOwnCar}
+                        handleSwitchChange={handleSwitchChange}
+                    />
+                    
+                    {/* <div>
+                        <label className='switch'>
+                            <input 
+                                type='checkbox' 
+                                className='checkbox-input'
+                                checked={driverData.haveOwnCar}
+                                onChange={handleSwitchChange}
+                            />
+                            <span className='slider'></span>
+                        </label>
+                    </div> */}
                 </div>
                 
                 <SelectVehicle 
