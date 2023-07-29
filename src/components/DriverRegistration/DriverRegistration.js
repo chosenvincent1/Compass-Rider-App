@@ -132,6 +132,7 @@ const DriverRegistration = ({showSuccess, setShowSuccess})=> {
         }
         if(!driverData.referralCode && !codeRegex.test(driverData.referralCode)){
             setReferralCodeError(true)
+            setShowSuccess(false);
         }
 
         if(
@@ -141,8 +142,6 @@ const DriverRegistration = ({showSuccess, setShowSuccess})=> {
             driverData.selectedCar !== 'Luxury Car'
         ) {
             setSelectCarError(true);
-        }else {
-            setSelectCarError(false);
         }
 
         if(
@@ -158,11 +157,10 @@ const DriverRegistration = ({showSuccess, setShowSuccess})=> {
             driverData.selectedCar === 'Luxury Car') 
         ){
             setShowSuccess(true);
-        } 
+        }else{
+            setShowSuccess(false);
+        }
     }
-
-    console.log(driverData)
-
     return (
         <section style={{display: !showSuccess ? 'block' : 'none'}} className='driver-registration'>
             <div className='image_text-container'>
@@ -223,18 +221,6 @@ const DriverRegistration = ({showSuccess, setShowSuccess})=> {
                         checked={driverData.haveOwnCar}
                         handleSwitchChange={handleSwitchChange}
                     />
-                    
-                    {/* <div>
-                        <label className='switch'>
-                            <input 
-                                type='checkbox' 
-                                className='checkbox-input'
-                                checked={driverData.haveOwnCar}
-                                onChange={handleSwitchChange}
-                            />
-                            <span className='slider'></span>
-                        </label>
-                    </div> */}
                 </div>
                 
                 <SelectVehicle 
