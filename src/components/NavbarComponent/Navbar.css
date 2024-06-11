@@ -24,6 +24,10 @@
     cursor: pointer;
 }
 
+.navlink-home {
+    color: var(--yellow);
+}
+
 .avatar__notification {
     display: flex;  
     align-items: center;
