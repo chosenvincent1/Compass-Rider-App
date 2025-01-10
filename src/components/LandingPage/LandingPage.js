@@ -105,7 +105,7 @@ export const LandingPage = ()=> {
                     </div>
 
                     <div className='form-button-container'>
-                        <button type='submit'><FaSearch /> Find Driver</button>
+                        <button id='findDriver' type='submit'><FaSearch /> Find Driver</button>
                         <p>More Options</p>
                     </div>
                 </form>

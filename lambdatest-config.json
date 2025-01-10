@@ -1,0 +1,31 @@
+{
+   "lambdatest_auth": {
+      "username": "chosendev2000",
+      "access_key": "t0vgX4UOnjJyNUzKVGYxV1RWD2u0GMp393TE9IECST3fYbEWar"
+   },
+   "browsers": [
+      {
+         "browser": "Chrome",
+         "platform": "macOS Big sur",
+         "versions": [
+            "latest"
+         ]
+      }
+   ],
+   "run_settings": {
+      "reporter_config_file": "",
+      "build_name": "[Build] Cypress Demo",
+      "parallels": 2,
+      "specs": "./cypress/e2e/*.spec.js",
+      "ignore_files": "",
+      "network": false,
+      "headless": false,
+      "npm_dependencies": {
+         "cypress": "9.6"
+      }
+   },
+   "tunnel_settings": {
+      "tunnel": false,
+      "tunnel_name": null
+   }
+}
